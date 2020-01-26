@@ -1,3 +1,4 @@
+############################################################################
 # STEP 1.1
 
 # The first thing we're going to do
@@ -12,11 +13,11 @@
 from emnist import extract_training_samples
 
 print ("Imported the EMNIST libraries we need!")
+############################################################################
 
 
 
-
-
+############################################################################
 # STEP 1.2
 
 # Grab the data from the OpenML website
@@ -36,16 +37,34 @@ X_train = X_train.reshape(60000,784)
 X_test = X_test.reshape(10000,784)
 
 print("Extracted our samples and divided our training and testing data sets")
+############################################################################
 
 
 
-
-
+############################################################################
 # STEP 1.3
 
 import matplotlib.pyplot as plt
 
 img_index = 14000 # <<<<<  You can update this value to look at other images
 img = X_train[img_index]
-print("Image Label: " + str(chr(y_train[img_index]+96)))
+# print("Image Label: " + str(chr(y_train[img_index]+96)))
 plt.imshow(img.reshape((28,28)))
+############################################################################
+
+
+
+############################################################################
+# STEP 2.1
+
+# These two lines import the ML libraries we need
+from sklearn.datasets import fetch_openml
+from sklearn.neural_network import MLPClassifier
+
+# This creates our first MLP with 1 hidden layer with 50 neurons and sets it to run through the data 20 times
+mlp1 = MLPClassifier(hidden_layer_sizes=(50,), max_iter=20, alpha=1e-4,
+                    solver='sgd', verbose=10, tol=1e-4, random_state=1,
+                    learning_rate_init=.1)
+
+print("Created our first MLP network")
+############################################################################
