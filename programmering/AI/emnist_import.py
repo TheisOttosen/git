@@ -17,6 +17,8 @@ print ("Imported the EMNIST libraries we need!")
 
 
 
+
+
 ############################################################################
 # STEP 1.2
 
@@ -41,6 +43,8 @@ print("Extracted our samples and divided our training and testing data sets")
 
 
 
+
+
 ############################################################################
 # STEP 1.3
 
@@ -54,6 +58,8 @@ plt.imshow(img.reshape((28,28)))
 
 
 
+
+
 ############################################################################
 # STEP 2.1
 
@@ -62,9 +68,67 @@ from sklearn.datasets import fetch_openml
 from sklearn.neural_network import MLPClassifier
 
 # This creates our first MLP with 1 hidden layer with 50 neurons and sets it to run through the data 20 times
-mlp1 = MLPClassifier(hidden_layer_sizes=(50,), max_iter=20, alpha=1e-4,
+mlp1 = MLPClassifier(hidden_layer_sizes=(200,100,100), max_iter=20, alpha=1e-4,
                     solver='sgd', verbose=10, tol=1e-4, random_state=1,
                     learning_rate_init=.1)
 
 print("Created our first MLP network")
+############################################################################
+
+
+
+
+
+############################################################################
+# STEP 3.1
+
+mlp1.fit(X_train, y_train)
+print("Training set score: %f" % mlp1.score(X_train, y_train))
+print("Test set score: %f" % mlp1.score(X_test, y_test))
+############################################################################
+
+
+
+
+
+############################################################################
+# STEP 3.2
+
+# First let's initialize a list with all the predicted values from the training set
+y_pred = mlp1.predict(X_test)
+
+# Now let's visualize the errors between the predictions and the actual labels using a confusion matrix
+from sklearn.metrics import confusion_matrix
+cm = confusion_matrix(y_test, y_pred)
+plt.matshow(cm)
+############################################################################
+
+
+
+
+
+############################################################################
+# STEP 3.3
+
+# You can change this to any letters that you think the neural network may have confused...
+predicted_letter = 'l'
+actual_letter = 'i'
+
+
+# This code counts all mistakes for the letters above
+mistake_list = []
+for i in range(len(y_test)):
+  if (y_test[i] == (ord(actual_letter) - 96) and y_pred[i] == (ord(predicted_letter) - 96)):
+    mistake_list.append(i)
+print("There were " + str(len(mistake_list)) + " times that the letter " + actual_letter + " was predicted to be the letter " + predicted_letter + ".")
+
+# Once we know how many mistakes were made, we can change this to see an image of a particular one
+mistake_to_show = 4 # <<< e.g., change this to 3 if you want to see the 4th mistake
+
+# This code checks that the number mistake you asked for can be shown and if so, displays an image of it
+if (len(mistake_list)> mistake_to_show):
+  img = X_test[mistake_list[mistake_to_show]]
+  plt.imshow(img.reshape((28,28)))
+else:
+  print("Couldn't show mistake number " + str(mistake_to_show + 1) + " because there were only " + str(len(mistake_list)) + " mistakes to show!")
 ############################################################################
