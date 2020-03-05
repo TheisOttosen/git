@@ -33,18 +33,16 @@ def DrawContent():
 
 
 
-# Makes the player move
-def Movement():
-    for event in pygame.event.get():
-        if event.type == pygame.K_w:
-            posY -= 1
-        if event.type == pygame.K_a:
-            posY -= 1
-        if event.type == pygame.K_s:
-            posY -= 1
-        if event.type == pygame.K_d:
-            posY -= 1
-    pass
+def MoveContent(posX, posY):
+    keys = pygame.key.get_pressed()
+    if keys[pygame.K_LEFT]: 
+        posY = posY - 50
+    if keys[pygame.K_RIGHT]:
+        posX = posX - 50
+    if keys[pygame.K_UP]:
+        posY = posY + 50
+    if keys[pygame.K_DOWN]:
+        posX = posX + 50
 
 
 
@@ -57,10 +55,8 @@ while run:
         if event.type == pygame.QUIT:
             run = False
 
-    Movement()
+    MoveContent(posX, posY)
     DrawContent()
-
-    
 
 
 
